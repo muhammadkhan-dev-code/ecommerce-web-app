@@ -1,27 +1,32 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
-
 import "./CheckOut.css";
 import CheckOutHeader from "../../components/CheckOutHeader.jsx";
 import OrderSummary from "./OrderSummary.jsx";
 import PaymentSummary from "./PaymentSummary.jsx";
 
-const CheckOut = ({ cart }) => {
+const CheckOut = ({ cart, loadCart }) => {
   const [deliveryOptions, setDeliveryOptions] = useState([]);
   const [paymentSummary, setPaymentSummary] = useState(null);
+
   useEffect(() => {
-    axios
-      .get("/api/delivery-options?expand=estimatedDeliveryTime")
-      .then((response) => {
-        setDeliveryOptions(response.data);
-      });
+  const fetchCheckOutData = async () => {
+    const response = await axios.get(
+      "/api/delivery-options?expand=estimatedDeliveryTime"
+    );
+    setDeliveryOptions(response.data);
+  };
 
-    axios.get("/api/payment-summary").then((response) => {
-      // console.log("hi",response)
-      setPaymentSummary(response.data);
-    });
-  }, []);
+  fetchCheckOutData();
+}, [cart]);
 
+useEffect(() => {
+  const paymentSummary = async () => {
+    const response = await axios.get("/api/payment-summary");
+    setPaymentSummary(response.data);
+  };
+  paymentSummary();
+}, [paymentSummary]);
   return (
     <>
       <CheckOutHeader cart={cart} />
@@ -30,7 +35,11 @@ const CheckOut = ({ cart }) => {
         <div className="page-title">Review your order</div>
 
         <div className="checkout-grid">
-          <OrderSummary cart={cart} deliveryOptions={deliveryOptions} />
+          <OrderSummary
+            cart={cart}
+            deliveryOptions={deliveryOptions}
+            loadCart={loadCart}
+          />
           <PaymentSummary paymentSummary={paymentSummary} />
         </div>
       </div>

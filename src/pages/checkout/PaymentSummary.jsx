@@ -10,7 +10,7 @@ const PaymentSummary = ({paymentSummary}) => {
 
             {paymentSummary && (
               <>
-                {console.log(" payment ", paymentSummary)}
+                
                 <div className="payment-summary-row">
                   <div>Items ({paymentSummary.totalItems}):</div>
                   <div className="payment-summary-money">

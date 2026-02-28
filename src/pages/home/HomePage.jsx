@@ -1,17 +1,19 @@
+import axios from "axios";
+import { useEffect, useState } from "react";
+import Header from "../../components/Header.jsx";
 import "../header.css";
 import "./HomePage.css";
-import Header from "../../components/Header.jsx";
-import axios from "axios";
 import ProductGrid from "./ProductGrid.jsx";
-import { useEffect, useState } from "react";
 
-const HomePage = ({ cart }) => {
+const HomePage = ({ cart,loadCart }) => {
   const [products, setProducts] = useState([]);
 
   useEffect(() => {
-    axios.get("/api/products").then((responseData) => {
-      setProducts(responseData.data);
-    });
+    const getHomeData = async () => {
+      const response = await axios.get("/api/products");
+      setProducts(response.data);
+    };
+    getHomeData();
   }, []); // dependency array just one time run
 
   return (
@@ -21,7 +23,7 @@ const HomePage = ({ cart }) => {
       <Header cart={cart} />
 
       <div className="home-page">
-        <ProductGrid products={products} />
+        <ProductGrid products={products} loadCart={loadCart} />
       </div>
     </>
   );
