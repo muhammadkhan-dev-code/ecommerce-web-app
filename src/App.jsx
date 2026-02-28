@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import HomePage from "./pages/home/HomePage.jsx";
-import CheckOut from "./pages/CheckOut.jsx";
-import Orders from "./pages/Orders.jsx";
+import CheckOut from "./pages/checkout/CheckOut.jsx";
+import Orders from "./pages/order/Orders.jsx";
 import "./App.css";
 import { Routes, Route } from "react-router";
 import Tracking from "./pages/Tracking.jsx";
