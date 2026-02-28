@@ -3,21 +3,23 @@ import "./HomePage.css";
 import Header from "../components/Header";
 import axios from "axios";
 import { useEffect, useState } from "react";
+import{formatPrice} from '../utils/price.js'
 
-const HomePage = () => {
+const HomePage = ({ cart }) => {
   const [products, setProducts] = useState([]);
 
   useEffect(() => {
-    axios.get("http://localhost:3000/api/products").then((responseData) => {
-      setProducts( responseData.data);
-    },[]); // dependency array just one time run 
-  });
+    axios.get("/api/products").then((responseData) => {
+      setProducts(responseData.data);
+    });
+  }, []); // dependency array just one time run
 
   return (
     <>
-      <title>Ecommerse Project</title>
+      <title>ecommerse Project</title>
 
-      <Header />
+      <Header cart={cart} />
+
       <div className="home-page">
         <div className="products-grid">
           {products.map((eachProduct) => {
@@ -42,7 +44,9 @@ const HomePage = () => {
                 </div>
 
                 <div className="product-price">
-                  ${(eachProduct.priceCents / 100).toFixed(2)}
+                  {
+                    formatPrice(eachProduct.priceCents)
+                  }
                 </div>
 
                 <div className="product-quantity-container">
