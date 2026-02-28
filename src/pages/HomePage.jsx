@@ -1,9 +1,18 @@
 import "./header.css";
 import "./HomePage.css";
 import Header from "../components/Header";
-import { products } from "../data/products";
+import axios from "axios";
+import { useEffect, useState } from "react";
 
 const HomePage = () => {
+  const [products, setProducts] = useState([]);
+
+  useEffect(() => {
+    axios.get("http://localhost:3000/api/products").then((responseData) => {
+      setProducts( responseData.data);
+    },[]); // dependency array just one time run 
+  });
+
   return (
     <>
       <title>Ecommerse Project</title>
