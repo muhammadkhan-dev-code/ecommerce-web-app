@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import HomePage from "./pages/HomePage.jsx";
+import HomePage from "./pages/home/HomePage.jsx";
 import CheckOut from "./pages/CheckOut.jsx";
 import Orders from "./pages/Orders.jsx";
 import "./App.css";
