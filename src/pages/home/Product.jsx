@@ -28,7 +28,9 @@ const Product = ({ eachProduct, loadCart }) => {
     <div>
       <div className="product-container">
         <div className="product-image-container">
-          <img className="product-image" src={eachProduct.image} />
+          <img className="product-image"
+          data-testid='product-image'
+           src={eachProduct.image} />
         </div>
 
         <div className="product-name limit-text-to-2-lines">
@@ -67,7 +69,7 @@ const Product = ({ eachProduct, loadCart }) => {
            style={{
             opacity:showAdded?1:0,
            }}>
-            <img src="images/icons/checkmark.png" />
+            <img src="images/icons/checkmark.png"/>
             Added
           </div>
      
