@@ -62,12 +62,15 @@ const Product = ({ eachProduct, loadCart }) => {
           </select>
         </div>
         <div className="product-spacer"></div>
-        {showAdded && (
-          <div className="added-to-cart">
+         
+          <div className="added-to-cart"
+           style={{
+            opacity:showAdded?1:0,
+           }}>
             <img src="images/icons/checkmark.png" />
             Added
           </div>
-        )}
+     
 
         <button
           className="add-to-cart-button button-primary"

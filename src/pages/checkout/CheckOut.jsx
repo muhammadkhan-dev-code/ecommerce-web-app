@@ -9,24 +9,25 @@ const CheckOut = ({ cart, loadCart }) => {
   const [deliveryOptions, setDeliveryOptions] = useState([]);
   const [paymentSummary, setPaymentSummary] = useState(null);
 
+
   useEffect(() => {
-  const fetchCheckOutData = async () => {
-    const response = await axios.get(
-      "/api/delivery-options?expand=estimatedDeliveryTime"
-    );
-    setDeliveryOptions(response.data);
-  };
+    const fetchCheckOutData = async () => {
+      const response = await axios.get(
+        "/api/delivery-options?expand=estimatedDeliveryTime",
+      );
+      setDeliveryOptions(response.data);
+    };
 
-  fetchCheckOutData();
-}, [cart]);
+    fetchCheckOutData();
+  }, []);
 
-useEffect(() => {
-  const paymentSummary = async () => {
-    const response = await axios.get("/api/payment-summary");
-    setPaymentSummary(response.data);
-  };
-  paymentSummary();
-}, [paymentSummary]);
+  useEffect(() => {
+    const fetchPaymentSummary = async () => {
+      const response = await axios.get("/api/payment-summary");
+      setPaymentSummary(response.data);
+    };
+    fetchPaymentSummary();
+  }, [cart]);
   return (
     <>
       <CheckOutHeader cart={cart} />
@@ -40,7 +41,7 @@ useEffect(() => {
             deliveryOptions={deliveryOptions}
             loadCart={loadCart}
           />
-          <PaymentSummary paymentSummary={paymentSummary} />
+          <PaymentSummary paymentSummary={paymentSummary} loadCart={loadCart} />
         </div>
       </div>
     </>

@@ -6,7 +6,7 @@ import { formatPrice } from "../../utils/price";
 import "./Orders.css";
 import dayjs from "dayjs";
 
-const Orders = ({ cart }) => {
+const Orders = ({ cart, loadCart }) => {
   const [orders, setOrders] = useState([]);
 
   useEffect(() => {
@@ -45,6 +45,14 @@ const Orders = ({ cart }) => {
 
                 <div className="order-details-grid">
                   {eachOrder.products.map((orderedProduct) => {
+                    const addToCart = async () => {
+                      await axios.post("/api/cart-items", {
+                        productId: orderedProduct.product.id,
+                        quantity: 1,
+                      });
+                      await loadCart();
+                    };
+
                     return (
                       <Fragment key={orderedProduct.product.id}>
                         <div className="product-image-container">
@@ -63,12 +71,14 @@ const Orders = ({ cart }) => {
                           <div className="product-quantity">
                             Quantity: {orderedProduct.quantity}
                           </div>
-                          <button className="buy-again-button button-primary">
+                          <button className="buy-again-button button-primary"
+                          onClick={addToCart}>
                             <img
                               className="buy-again-icon"
                               src="images/icons/buy-again.png"
                             />
-                            <span className="buy-again-message">
+                            <span className="buy-again-message"
+                            >
                               Add to Cart
                             </span>
                           </button>

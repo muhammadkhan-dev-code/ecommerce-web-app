@@ -7,6 +7,7 @@ import { Routes, Route } from "react-router";
 import Tracking from "./pages/Tracking.jsx";
 import axios from "axios";
 
+ 
 function App() {
   const [cart, setCart] = useState([]);
 
@@ -29,7 +30,7 @@ function App() {
         path="/checkout"
         element={<CheckOut cart={cart} loadCart={loadCart} />}
       />
-      <Route path="/orders" element={<Orders cart={cart} />} />
+      <Route path="/orders" element={<Orders cart={cart} loadcart={loadCart} />} />
       <Route path="/tracking" element={<Tracking />} />
     </Routes>
   );

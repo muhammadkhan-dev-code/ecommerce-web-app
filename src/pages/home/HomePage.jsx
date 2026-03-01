@@ -4,17 +4,24 @@ import Header from "../../components/Header.jsx";
 import "../header.css";
 import "./HomePage.css";
 import ProductGrid from "./ProductGrid.jsx";
+import { useSearchParams } from "react-router";
 
-const HomePage = ({ cart,loadCart }) => {
+const HomePage = ({ cart, loadCart }) => {
   const [products, setProducts] = useState([]);
+
+  const [searchParams] = useSearchParams();
+  const search = searchParams.get("search");
 
   useEffect(() => {
     const getHomeData = async () => {
-      const response = await axios.get("/api/products");
+      const urlPath = search
+        ? `/api/products?search=${search}`
+        : "/api/products";
+      const response = await axios.get(urlPath);
       setProducts(response.data);
     };
     getHomeData();
-  }, []); // dependency array just one time run
+  }, [search]); // dependency array just one time run
 
   return (
     <>
