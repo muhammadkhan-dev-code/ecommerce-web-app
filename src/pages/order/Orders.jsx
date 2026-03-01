@@ -1,10 +1,9 @@
-import { useState, useEffect, Fragment } from "react";
+import { useState, useEffect } from "react";
 import Header from "../../components/Header";
 import axios from "axios";
-import { formatPrice } from "../../utils/price";
+import OrderCard from "./OrderCard";
 
 import "./Orders.css";
-import dayjs from "dayjs";
 
 const Orders = ({ cart, loadCart }) => {
   const [orders, setOrders] = useState([]);
@@ -23,80 +22,7 @@ const Orders = ({ cart, loadCart }) => {
         <div className="page-title">Your Orders</div>
         <div className="orders-grid">
           {orders.map((eachOrder) => {
-            return (
-              <div key={eachOrder.id} className="order-container">
-                <div className="order-header">
-                  <div className="order-header-left-section">
-                    <div className="order-date">
-                      <div className="order-header-label">Order Placed:</div>
-                      <div>{dayjs(eachOrder.orderTimeMs).format("MMMM,D")}</div>
-                    </div>
-                    <div className="order-total">
-                      <div className="order-header-label">Total:</div>
-                      <div>{formatPrice(eachOrder.totalCostCents)}</div>
-                    </div>
-                  </div>
-
-                  <div className="order-header-right-section">
-                    <div className="order-header-label">Order ID:</div>
-                    <div>{eachOrder.id}</div>
-                  </div>
-                </div>
-
-                <div className="order-details-grid">
-                  {eachOrder.products.map((orderedProduct) => {
-                    const addToCart = async () => {
-                      await axios.post("/api/cart-items", {
-                        productId: orderedProduct.product.id,
-                        quantity: 1,
-                      });
-                      await loadCart();
-                    };
-
-                    return (
-                      <Fragment key={orderedProduct.product.id}>
-                        <div className="product-image-container">
-                          <img src={orderedProduct.product.image} />
-                        </div>
-
-                        <div className="product-details">
-                          <div className="product-name">
-                            {orderedProduct.product.name}
-                          </div>
-                          <div className="product-delivery-date">
-                            {dayjs(
-                              orderedProduct.estimatedDeliveryTimeMs,
-                            ).format("MMMM,D")}
-                          </div>
-                          <div className="product-quantity">
-                            Quantity: {orderedProduct.quantity}
-                          </div>
-                          <button className="buy-again-button button-primary"
-                          onClick={addToCart}>
-                            <img
-                              className="buy-again-icon"
-                              src="images/icons/buy-again.png"
-                            />
-                            <span className="buy-again-message"
-                            >
-                              Add to Cart
-                            </span>
-                          </button>
-                        </div>
-
-                        <div className="product-actions">
-                          <a href="/tracking">
-                            <button className="track-package-button button-secondary">
-                              Track package
-                            </button>
-                          </a>
-                        </div>
-                      </Fragment>
-                    );
-                  })}
-                </div>
-              </div>
-            );
+            return <OrderCard key={eachOrder.id} eachOrder={eachOrder} loadCart={loadCart} />;
           })}
         </div>
       </div>
